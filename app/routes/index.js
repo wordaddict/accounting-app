@@ -19,4 +19,10 @@ module.exports.setup = function setup(server, serviceLocator) {
     name: 'Get account balance',
     version: '1.0.0'
   }, (req, res) => accountController.getAccountBalance(req, res));
+
+  server.get({
+    path: '/account_details/:accountId',
+    name: 'Get account details',
+    version: '1.0.0'
+  }, (req, res) => accountController.getAccountDetails(req, res));
 };

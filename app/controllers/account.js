@@ -26,6 +26,19 @@ class MainController {
     }
   }
 
+  getAccountDetails(req, res){
+    const { accountId } = req.params;
+    try {
+      if(!checkIfAccountExist(accountId)){
+        return this.handleNotFound(res, accountId)
+      }
+      const data = this.accountServices.getAccountDetails(accountId);
+      return this.handleOk(res, data);
+    } catch (err) {
+      return this.handleInternalServerError(res, err);
+    }
+  }
+
   handleOk(res, data) {
     this.logger.info('vehicle data gotten successfully');
     const response = new Response(HTTPStatus.OK, 'Data gotten successfully', res, false, data);

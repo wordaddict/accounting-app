@@ -26,6 +26,13 @@ getAccountBalance (accountId) {
    const accountBalance = accountDatabase[accountId].balance;
    return { accountBalance };
  };
+
+ getAccountDetails (accountId) {
+  if (lock.isBusy(accountId)) throwError('Service Unavailable', 503);
+
+  return { ...accountDatabase[accountId] };
+ };
 }
+
 
 module.exports = AccountServices;
