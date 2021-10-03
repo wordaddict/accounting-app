@@ -1,5 +1,6 @@
 const Response = require('../response/response');
 const HTTPStatus = require('../constants/http_status');
+const checkIfAccountExist = require('../validation/index');
 
 class MainController {
   /**
@@ -12,9 +13,27 @@ class MainController {
     this.accountServices = accountServices;
   }
 
+  getAccountBalance(req, res){
+    const { accountId } = req.params;
+    try {
+      if(!checkIfAccountExist(accountId)){
+        return this.handleNotFound(res, accountId)
+      }
+      const data = this.accountServices.getAccountBalance(accountId);
+      return this.handleOk(res, data);
+    } catch (err) {
+      return this.handleInternalServerError(res, err);
+    }
+  }
+
   handleOk(res, data) {
     this.logger.info('vehicle data gotten successfully');
     const response = new Response(HTTPStatus.OK, 'Data gotten successfully', res, false, data);
+    return response.res_message();
+  }
+
+  handleNotFound(res, accountId) {
+    const response = new Response(HTTPStatus.NOT_FOUND, `AccountId ${accountId} does not exist`, res, false, []);
     return response.res_message();
   }
 
@@ -32,7 +51,7 @@ class MainController {
 
   // eslint-disable-next-line class-methods-use-this
   handleBadRequest(res) {
-    const resp = new Response(HTTPStatus.BadRequest, 'Bad request, Add all required fields, modelYear, manufacturer, model', res, true, []);
+    const resp = new Response(HTTPStatus.BadRequest, 'Bad request, Add all required', res, true, []);
     return resp.res_message();
   }
 }

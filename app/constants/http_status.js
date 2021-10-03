@@ -14,6 +14,13 @@ Object.defineProperty(HTTPStatus, 'NO_CONTENT', {
   configurable: false
 });
 
+Object.defineProperty(HTTPStatus, 'NOT_FOUND', {
+  value: 404,
+  writable: false,
+  enumerable: true,
+  configurable: false
+});
+
 Object.defineProperty(HTTPStatus, 'BadRequest', {
   value: 400,
   writable: false,
