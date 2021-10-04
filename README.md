@@ -47,7 +47,7 @@ npm test
 
 ## Get account balance
 
-**Endpoint** `localhost:3006/account_balance/b4563-134-7632-6a366-12b3` - method (GET)
+**Endpoint** `/account_balance/b4563-134-7632-6a366-12b3` - method (GET)
 
 - Fetches the account balance
 
@@ -67,7 +67,7 @@ npm test
 
 ### Get a account details by id
 
-**Endpoint** `localhost:3006/account_details/b4563-134-7632-6a366-12b3` - method (GET)
+**Endpoint** `/account_details/b4563-134-7632-6a366-12b3` - method (GET)
 
 - Fetches a user account details
 
@@ -91,7 +91,7 @@ npm test
 
 ### Get transaction History
 
-**Endpoint** `localhost:3006/transaction_history/b4563-134-7632-6a366-12b3` - method (GET)
+**Endpoint** `/transaction_history/b4563-134-7632-6a366-12b3` - method (GET)
 
 - retrieves the transaction history for an account
 
@@ -116,7 +116,7 @@ npm test
 ```
 
 ### application/json
-**Endpoint** `localhost:3006/commit_transaction/b4563-134-7632-6a366-12b3` - method (POST)
+**Endpoint** `/commit_transaction/b4563-134-7632-6a366-12b3` - method (POST)
 
 **Payload**
 
@@ -147,4 +147,11 @@ npm test
 ### application/json
 
 This is the link to the postman collection
+```
 https://www.getpostman.com/collections/52a770b334e61b4e7eb5
+```
+
+This is the link to the app
+```
+https://accounting-check.herokuapp.com/
+```
