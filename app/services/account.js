@@ -28,17 +28,35 @@ getAccountBalance (accountId) {
    return { accountBalance };
  };
 
+ /**
+ * Retrieves the account details
+ * @param accountId uuid
+ *
+ * @returns getAccountDetails - object
+ */
  getAccountDetails (accountId) {
   if (lock.isBusy(accountId)) throwError('Service Unavailable', 503);
 
   return { ...accountDatabase[accountId] };
  };
 
+  /**
+ * Retrieves the transaction history
+ * @param accountId uuid
+ *
+ * @returns getTransactionHistory - object
+ */
  getTransactionHistory (accountId) {
   if (lock.isBusy(accountId)) throwError('Service Unavailable', 503);
   return { transactionHistory: [accountDatabase[accountId]] };
  };
 
+   /**
+ * Commit the transaction
+ * @param params 
+ *
+ * @returns commitTransaction - object
+ */
  commitTransaction (params) {
   const { accountId, accountType, amount } = params;
   if (lock.isBusy(params.accountId)) throwError('Service Unavailable', 503);
@@ -46,6 +64,13 @@ getAccountBalance (accountId) {
   return this.debitAccount(accountId, amount);
  };
 
+ /**
+ * Increases the  account balance
+ * @param accountId uuid
+ * @param amount number
+ *
+ * @return object
+ */
  creditAccount (accountId, amount){
   const account = accountDatabase[accountId];
 
@@ -58,7 +83,7 @@ getAccountBalance (accountId) {
 };
 
   /**
-   * Decreases the user's account balance with the specified amount
+   * Decreases the account balance
    * @param accountId uuid
    * @param amount number
    *
