@@ -1,7 +1,7 @@
-const { accountId } = require('../db/database');
+const { accountId, testId } = require('../db/database');
 
 const checkIfAccountExist = (accountIdInput) => {
-    return accountId === accountIdInput;
+    return (accountId === accountIdInput) || (testId === accountIdInput);
 };
 
 const validateAccountType = (type) => {

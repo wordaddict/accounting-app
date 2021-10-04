@@ -17,7 +17,7 @@ class MainController {
     try {
       if(!checkIfAccountExist(accountId)) return handleAccountNotFound(res, accountId);
       const response = this.accountServices.getAccountBalance(accountId);
-      return handleOk(res, response, 'Account balance gotten successfully');
+      return handleOk(res, response, 'successful operation');
     } catch (err) {
       return handleInternalServerError(res);
     }
@@ -30,7 +30,7 @@ class MainController {
         return handleAccountNotFound(res, accountId)
       }
       const data = this.accountServices.getAccountDetails(accountId);
-      return handleOk(res, data, 'Account details gotten successfully');
+      return handleOk(res, data, 'successful operation');
     } catch (err) {
       return handleInternalServerError(res);
     }
@@ -43,7 +43,7 @@ class MainController {
         return handleAccountNotFound(res, accountId)
       }
       const data = this.accountServices.getTransactionHistory(accountId);
-      return handleOk(res, data, 'Transaction history gotten successfully');
+      return handleOk(res, data, 'successful operation');
     } catch (err) {
       return handleInternalServerError(res);
     }
@@ -70,7 +70,7 @@ class MainController {
         amount
       }
       const data = this.accountServices.commitTransaction(params);
-      return handleOk(res, data);
+      return handleOk(res, data, 'successful operation');
     } catch (err) {
       if(err.message === 'Insufficient balance'){
         return handleInsufficientAmt(res, err.message)
