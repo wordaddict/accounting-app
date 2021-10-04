@@ -25,4 +25,16 @@ module.exports.setup = function setup(server, serviceLocator) {
     name: 'Get account details',
     version: '1.0.0'
   }, (req, res) => accountController.getAccountDetails(req, res));
+
+  server.get({
+    path: '/transaction_history/:accountId',
+    name: 'Get transaction history',
+    version: '1.0.0'
+  }, (req, res) => accountController.getTransactionHistory(req, res));
+
+  server.post({
+    path: '/commit_transaction/:accountId',
+    name: 'commit transaction',
+    version: '1.0.0'
+  }, (req, res) => accountController.commitTransaction(req, res));
 };

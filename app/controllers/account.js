@@ -1,6 +1,5 @@
-const Response = require('../response/response');
-const HTTPStatus = require('../constants/http_status');
-const checkIfAccountExist = require('../validation/index');
+const { handleOk, handleAccountNotFound, handleBadRequest, handleInternalServerError, handleInsufficientAmt } = require('../utils/global_response');
+const { validateAccountType, checkIfAccountExist } = require('../validation/index');
 
 class MainController {
   /**
@@ -16,13 +15,11 @@ class MainController {
   getAccountBalance(req, res){
     const { accountId } = req.params;
     try {
-      if(!checkIfAccountExist(accountId)){
-        return this.handleNotFound(res, accountId)
-      }
-      const data = this.accountServices.getAccountBalance(accountId);
-      return this.handleOk(res, data);
+      if(!checkIfAccountExist(accountId)) return handleAccountNotFound(res, accountId);
+      const response = this.accountServices.getAccountBalance(accountId);
+      return handleOk(res, response, 'Account balance gotten successfully');
     } catch (err) {
-      return this.handleInternalServerError(res, err);
+      return handleInternalServerError(res);
     }
   }
 
@@ -30,42 +27,56 @@ class MainController {
     const { accountId } = req.params;
     try {
       if(!checkIfAccountExist(accountId)){
-        return this.handleNotFound(res, accountId)
+        return handleAccountNotFound(res, accountId)
       }
       const data = this.accountServices.getAccountDetails(accountId);
-      return this.handleOk(res, data);
+      return handleOk(res, data, 'Account details gotten successfully');
     } catch (err) {
-      return this.handleInternalServerError(res, err);
+      return handleInternalServerError(res);
     }
   }
 
-  handleOk(res, data) {
-    this.logger.info('vehicle data gotten successfully');
-    const response = new Response(HTTPStatus.OK, 'Data gotten successfully', res, false, data);
-    return response.res_message();
+  getTransactionHistory(req, res){
+    const { accountId } = req.params;
+    try {
+      if(!checkIfAccountExist(accountId)){
+        return handleAccountNotFound(res, accountId)
+      }
+      const data = this.accountServices.getTransactionHistory(accountId);
+      return handleOk(res, data, 'Transaction history gotten successfully');
+    } catch (err) {
+      return handleInternalServerError(res);
+    }
   }
 
-  handleNotFound(res, accountId) {
-    const response = new Response(HTTPStatus.NOT_FOUND, `AccountId ${accountId} does not exist`, res, false, []);
-    return response.res_message();
-  }
+  commitTransaction(req, res){
+    const { accountId } = req.params;
+    const { accountType, amount } = req.body;
+    try {
 
-  handleNoContent(res, data) {
-    this.logger.info('There is no vehicle data ');
-    const emptyResponse = new Response(HTTPStatus.NO_CONTENT, 'No content available', res, false, data);
-    return emptyResponse.res_message();
-  }
+      if (!accountType || !amount) {
+        return handleBadRequest(res, 'Validation error: accountType and amount must be added to the request body')
+      }
+      if(!checkIfAccountExist(accountId)){
+        return handleAccountNotFound(res, accountId)
+      }
 
-  handleInternalServerError(res, err) {
-    this.logger.error('Error from getting vehicle data', err);
-    const resp = new Response(HTTPStatus.INTERNAL_SERVER_ERROR, 'Internal server error', res, true, []);
-    return resp.res_message();
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  handleBadRequest(res) {
-    const resp = new Response(HTTPStatus.BadRequest, 'Bad request, Add all required', res, true, []);
-    return resp.res_message();
+      if(!validateAccountType(accountType)){
+       return handleBadRequest(res, 'Validation error: accountType must be either debit or credit')
+      }
+      const params = {
+        accountId,
+        accountType,
+        amount
+      }
+      const data = this.accountServices.commitTransaction(params);
+      return handleOk(res, data);
+    } catch (err) {
+      if(err.message === 'Insufficient balance'){
+        return handleInsufficientAmt(res, err.message)
+      }
+      return handleInternalServerError(res);
+    }
   }
 }
 

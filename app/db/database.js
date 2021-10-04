@@ -9,7 +9,10 @@ const accountDatabase = {
   },
 };
 
+const transactionHistory = [];
+
 module.exports = {
   accountId,
-  accountDatabase
+  accountDatabase,
+  transactionHistory
 };

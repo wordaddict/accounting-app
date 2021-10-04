@@ -21,7 +21,7 @@ Object.defineProperty(HTTPStatus, 'NOT_FOUND', {
   configurable: false
 });
 
-Object.defineProperty(HTTPStatus, 'BadRequest', {
+Object.defineProperty(HTTPStatus, 'BAD_REQUEST', {
   value: 400,
   writable: false,
   enumerable: true,
@@ -30,6 +30,13 @@ Object.defineProperty(HTTPStatus, 'BadRequest', {
 
 Object.defineProperty(HTTPStatus, 'INTERNAL_SERVER_ERROR', {
   value: 500,
+  writable: false,
+  enumerable: true,
+  configurable: false
+});
+
+Object.defineProperty(HTTPStatus, 'UNPROCESSABLE_ENTITY', {
+  value: 422,
   writable: false,
   enumerable: true,
   configurable: false
