@@ -5,7 +5,7 @@ const restify = require('restify');
 const plugins = require('restify-plugins');
 
 const config = require('../app/config/config');
-const authRoute = require('./routes/index');
+const accountRoute = require('./routes/index');
 
 // service locator via dependency injection
 const serviceLocator = require('../app/config/di');
@@ -22,14 +22,13 @@ const server = restify.createServer({
 // set API versioning and allow trailing slashes
 server.pre(restify.pre.sanitizePath());
 
-
 // set request handling and parsing
 server.use(plugins.acceptParser(server.acceptable));
 server.use(plugins.queryParser());
 server.use(plugins.bodyParser());
 
 // setup Routing and Error Event Handling
-authRoute.setup(server, serviceLocator);
+accountRoute.setup(server, serviceLocator);
 
 // setup Routing and Error Event Handling
 
