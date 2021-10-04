@@ -1,15 +1,12 @@
-# accounting-app
-# Single-User Accounting System
+#Accounting System
 
 A sample single user accounting system api
 
-**Author:** Fisayo Agboola
+**Author:** Adeyinka Micheal
 
 **Environments**
 
-Node version - v14.15.0
-
-YARN version - v1.22.10
+Node version - v14.10.0
 
 **This application uses the following technologies:**
 
