@@ -1,4 +1,6 @@
-const { handleOk, handleAccountNotFound, handleBadRequest, handleInternalServerError, handleInsufficientAmt } = require('../utils/global_response');
+const {
+  handleOk, handleAccountNotFound, handleBadRequest, handleInternalServerError, handleInsufficientAmt
+} = require('../utils/global_response');
 const { validateAccountType, checkIfAccountExist } = require('../validation/index');
 
 class MainController {
@@ -12,10 +14,10 @@ class MainController {
     this.accountServices = accountServices;
   }
 
-  getAccountBalance(req, res){
+  getAccountBalance(req, res) {
     const { accountId } = req.params;
     try {
-      if(!checkIfAccountExist(accountId)) return handleAccountNotFound(res, accountId);
+      if (!checkIfAccountExist(accountId)) return handleAccountNotFound(res, accountId);
       const response = this.accountServices.getAccountBalance(accountId);
       return handleOk(res, response, 'successful operation');
     } catch (err) {
@@ -23,11 +25,11 @@ class MainController {
     }
   }
 
-  getAccountDetails(req, res){
+  getAccountDetails(req, res) {
     const { accountId } = req.params;
     try {
-      if(!checkIfAccountExist(accountId)){
-        return handleAccountNotFound(res, accountId)
+      if (!checkIfAccountExist(accountId)) {
+        return handleAccountNotFound(res, accountId);
       }
       const data = this.accountServices.getAccountDetails(accountId);
       return handleOk(res, data, 'successful operation');
@@ -36,11 +38,11 @@ class MainController {
     }
   }
 
-  getTransactionHistory(req, res){
+  getTransactionHistory(req, res) {
     const { accountId } = req.params;
     try {
-      if(!checkIfAccountExist(accountId)){
-        return handleAccountNotFound(res, accountId)
+      if (!checkIfAccountExist(accountId)) {
+        return handleAccountNotFound(res, accountId);
       }
       const data = this.accountServices.getTransactionHistory(accountId);
       return handleOk(res, data, 'successful operation');
@@ -49,31 +51,30 @@ class MainController {
     }
   }
 
-  commitTransaction(req, res){
+  commitTransaction(req, res) {
     const { accountId } = req.params;
     const { accountType, amount } = req.body;
     try {
-
       if (!accountType || !amount) {
-        return handleBadRequest(res, 'Validation error: accountType and amount must be added to the request body')
+        return handleBadRequest(res, 'Validation error: accountType and amount must be added to the request body');
       }
-      if(!checkIfAccountExist(accountId)){
-        return handleAccountNotFound(res, accountId)
+      if (!checkIfAccountExist(accountId)) {
+        return handleAccountNotFound(res, accountId);
       }
 
-      if(!validateAccountType(accountType)){
-       return handleBadRequest(res, 'Validation error: accountType must be either debit or credit')
+      if (!validateAccountType(accountType)) {
+        return handleBadRequest(res, 'Validation error: accountType must be either debit or credit');
       }
       const params = {
         accountId,
         accountType,
         amount
-      }
+      };
       const data = this.accountServices.commitTransaction(params);
       return handleOk(res, data, 'successful operation');
     } catch (err) {
-      if(err.message === 'Insufficient balance'){
-        return handleInsufficientAmt(res, err.message)
+      if (err.message === 'Insufficient balance') {
+        return handleInsufficientAmt(res, err.message);
       }
       return handleInternalServerError(res);
     }

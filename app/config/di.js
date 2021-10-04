@@ -3,12 +3,10 @@ const serviceLocator = require('../lib/service_locator');
 require('winston-daily-rotate-file');
 
 // Controllers
-
-const AccountController = require('../controllers/account.js');
+const AccountController = require('../controllers/account');
 
 // Services
-const AccountService = require('../services/account.js');
-
+const AccountService = require('../services/account');
 /**
  * Returns an instance of logger
  */

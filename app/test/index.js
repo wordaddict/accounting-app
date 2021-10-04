@@ -35,7 +35,7 @@ describe('/Get account balance', () => {
 
   it('should check if account exists', (done) => {
     chai.request(app)
-      .get(`/account_balance/123`)
+      .get('/account_balance/123')
       .end((err, res) => {
         if (err) done(err);
         res.should.have.status(404);
@@ -69,7 +69,6 @@ describe('/GetAccount Details', () => {
         done();
       });
   });
-
 });
 
 describe('/transactionHistory', () => {
@@ -90,7 +89,6 @@ describe('/transactionHistory', () => {
         done();
       });
   });
-
 });
 
 describe('/Commit transaction', () => {
@@ -100,7 +98,7 @@ describe('/Commit transaction', () => {
       .post(`/commit_transaction/${testId}`)
       .send({
         amount: 100,
-        accountType: "debit"
+        accountType: 'debit'
       })
       .end((err, res) => {
         if (err) done(err);
@@ -122,7 +120,7 @@ describe('/Commit transaction', () => {
       .post(`/commit_transaction/${testId}`)
       .send({
         amount: 200,
-        accountType: "credit"
+        accountType: 'credit'
       })
       .end((err, res) => {
         if (err) done(err);
@@ -143,7 +141,7 @@ describe('/Commit transaction', () => {
     chai.request(app)
       .post(`/commit_transaction/${testId}`)
       .send({
-        accountType: "credit"
+        accountType: 'credit'
       })
       .end((err, res) => {
         if (err) done(err);
@@ -161,7 +159,7 @@ describe('/Commit transaction', () => {
     chai.request(app)
       .post(`/commit_transaction/${testId}`)
       .send({
-        accountType: "credi",
+        accountType: 'credi',
         amount: 500
       })
       .end((err, res) => {
@@ -175,5 +173,4 @@ describe('/Commit transaction', () => {
         done();
       });
   });
-
 });
